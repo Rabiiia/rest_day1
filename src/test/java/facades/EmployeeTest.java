@@ -18,6 +18,8 @@ class EmployeeTest {
     private static EntityManagerFactory emf;
     private static EmployeeFacade facade;
 
+    private static Employee e1, e2;
+
     public EmployeeTest() {
     }
 
@@ -37,11 +39,13 @@ class EmployeeTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
+        e1 = new Employee("Mark", "Fredensborg alle 2", 45000);
+        e2 = new Employee("Anne", "Juni Allé 1", 67000.35);
         try {
             em.getTransaction().begin();
             em.createNamedQuery("Employee.deleteAllRows").executeUpdate();
-            em.persist(new Employee("Mark", "Fredensborg alle 2", 45000));
-            em.persist(new Employee("Anne", "Juni Allé 1", 67000.35));
+            em.persist(e1);
+            em.persist(e2);
 
             em.getTransaction().commit();
         } finally {
@@ -58,16 +62,16 @@ class EmployeeTest {
     @Test
     public void testCreateEmployee() throws Exception {
         String expected = "Ali\nNørre alle 2\n30000.0";
-        Employee actual = facade.createEmployee("Ali", "Nørre alle 2", 3000);
+        Employee actual = facade.createEmployee("Ali", "Nørre alle 2", 30000);
         assertEquals(expected, actual.toString());
         System.out.println(actual);
     }
 
     @Test
     public void testgetEmployeeById() throws Exception {
-        int expected = 2;
-        Employee actual = facade.getEmployeeById(2);
-        assertEquals(expected, actual.getId());
+        int expected = e1.getId();
+        int actual = facade.getEmployeeById(expected).getId();
+        assertEquals(expected, actual);
         System.out.println(actual);
     }
 
