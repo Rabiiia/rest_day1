@@ -4,12 +4,14 @@ import dtos.EmployeeDTO;
 import dtos.RenameMeDTO;
 import entities.Employee;
 import entities.RenameMe;
+import utils.EMF_Creator;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
+import static facades.Populator.populate;
 import static org.eclipse.persistence.jpa.JpaHelper.getEntityManager;
 
 public class EmployeeFacade {
@@ -17,6 +19,7 @@ public class EmployeeFacade {
     private static EmployeeFacade instance;
 
     private static EntityManagerFactory emf;
+
 
     private EmployeeFacade(){}
 
@@ -31,6 +34,7 @@ public class EmployeeFacade {
     private EntityManager getEntityManager() {
         return emf.createEntityManager();
     }
+
 
     public Employee createEmployee(String name, String address, double salary) {
 
@@ -47,6 +51,7 @@ public class EmployeeFacade {
     }
 
     //skaber endnu en metode men det er af datatype EmployeeDTO samme metodenavn, derfor forstyrrer ik test
+    //matchende end-point
     public EmployeeDTO createEmployee(EmployeeDTO employeeDTO){
         Employee employee = new Employee(employeeDTO.getName(), employeeDTO.getAddress());
 
@@ -100,7 +105,7 @@ public class EmployeeFacade {
         }
     }
 
-    //vil gerne skrive getEmployees her men kan ikke ellers forstyrrer det min test?
+    //matchende end-point rest
     public List<EmployeeDTO> getAll(){
         EntityManager em = emf.createEntityManager();
         TypedQuery<Employee> query = em.createQuery("SELECT e FROM Employee e", Employee.class);
@@ -120,5 +125,11 @@ public class EmployeeFacade {
             em.close();
 
         }
+
     }
+
+
+
+
+
 }
