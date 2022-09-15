@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import dtos.EmployeeDTO;
 import facades.EmployeeFacade;
 import facades.FacadeExample;
+import facades.Populator;
 import utils.EMF_Creator;
 
 import javax.persistence.EntityManagerFactory;
@@ -39,12 +40,12 @@ public class EmployeeResource {
         return Response.ok().entity(GSON.toJson(returned)).build();
     }
 
-//    @Path("/populator")
-//    @GET
-//    @Produces({MediaType.APPLICATION_JSON})
-//    public Response getAll() {
-//        return Response.ok().entity(GSON.toJson(FACADE.main???)).build();
-//
-//
-//    }
+    @Path("/populate")
+    @GET
+    @Produces({MediaType.APPLICATION_JSON})
+    public void populate() {
+        Populator.populate();
+
+
+    }
 }
